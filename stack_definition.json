@@ -1,27 +1,27 @@
 {
-  "inputs": [
-    {
-      "name": "prefix",
-      "required": false,
-      "type": "string",
-      "hidden": false,
-      "default": "devsecops"
-    },
-    {
-      "name": "use_existing_resource_group",
-      "required": false,
-      "type": "string",
-      "hidden": false,
-      "default": ""
-    },
-    {
-      "name": "region",
-      "required": true,
-      "type": "string",
-      "hidden": false,
-      "default": "us-south"
-    },
-    {
+	"inputs": [
+		{
+			"name": "prefix",
+			"required": false,
+			"type": "string",
+			"hidden": false,
+			"default": "devsecops"
+		},
+		{
+			"name": "use_existing_resource_group",
+			"required": false,
+			"type": "string",
+			"hidden": false,
+			"default": ""
+		},
+		{
+			"name": "region",
+			"required": true,
+			"type": "string",
+			"hidden": false,
+			"default": "us-south"
+		},
+		{
 			"name": "resource_group_name",
 			"required": true,
 			"type": "string",
@@ -45,23 +45,23 @@
 			"default": "security-compliance-center-standard-plan",
 			"custom_config": {}
 		},
-    {
-      "name": "scc_region",
-      "required": false,
-      "type": "string",
-      "hidden": false,
-      "default": "us-south"
-    },
-    {
-      "name": "en_region",
-      "required": false,
-      "type": "string",
-      "hidden": false,
-      "default": "us-south"
-    }
-  ],
-  "members": [
-    {
+		{
+			"name": "scc_region",
+			"required": false,
+			"type": "string",
+			"hidden": false,
+			"default": "us-south"
+		},
+		{
+			"name": "en_region",
+			"required": false,
+			"type": "string",
+			"hidden": false,
+			"default": "us-south"
+		}
+	],
+	"members": [
+		{
 			"inputs": [
 				{
 					"name": "resource_group_name",
@@ -80,18 +80,52 @@
 					"value": "ref:../../inputs/prefix"
 				}
 			],
-			"name": "1 - core-security-services-kms",
-			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.8493fc70-8755-47c2-a696-ddabe2031673-global"
+			"name": "1 - Key Management Service",
+			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.717f055d-1a47-4a33-9211-6583fae447f4-global"
+		},
+		{
+			"inputs": [
+				{
+					"name": "resource_group_name",
+					"value": "ref:../../members/1 - Key Management Service/outputs/resource_group_name"
+				},
+				{
+					"name": "existing_resource_group",
+					"value": true
+				},
+				{
+					"name": "cos_instance_name",
+					"value": "core-services"
+				},
+				{
+					"name": "prefix",
+					"value": "ref:../../inputs/prefix"
+				},
+				{
+					"name": "create_cos_bucket",
+					"value": true
+				},
+				{
+					"name": "bucket_name",
+					"value": "evidence"
+				},
+				{
+					"name": "add_bucket_name_suffix",
+					"value": true
+				}
+			],
+			"name": "2 - Cloud Object Storage",
+			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.16a46645-903b-417a-b32a-9c68dcb60d98-global"
 		},
 		{
 			"inputs": [
 				{
 					"name": "kms_endpoint_url",
-					"value": "ref:../../members/1 - core-security-services-kms/outputs/kp_private_endpoint"
+					"value": "ref:../../members/1 - Key Management Service/outputs/kp_private_endpoint"
 				},
 				{
 					"name": "existing_kms_instance_crn",
-					"value": "ref:../../members/1 - core-security-services-kms/outputs/key_protect_crn"
+					"value": "ref:../../members/1 - Key Management Service/outputs/key_protect_crn"
 				},
 				{
 					"name": "kms_endpoint_type",
@@ -99,7 +133,7 @@
 				},
 				{
 					"name": "resource_group_name",
-					"value": "ref:../../members/1 - core-security-services-kms/outputs/resource_group_name"
+					"value": "ref:../../members/1 - Key Management Service/outputs/resource_group_name"
 				},
 				{
 					"name": "use_existing_resource_group",
@@ -110,14 +144,14 @@
 					"value": "ref:../../inputs/en_region"
 				}
 			],
-			"name": "2 - core-security-services-en",
-			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.32981b83-1aba-493e-be15-9c951578b1fb-global"
+			"name": "3 - Event Notifications",
+			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.474a78da-a5a6-4929-ad8e-7481a63d4097-global"
 		},
 		{
 			"inputs": [
 				{
 					"name": "resource_group_name",
-					"value": "ref:../../members/1 - core-security-services-kms/outputs/resource_group_name"
+					"value": "ref:../../members/1 - Key Management Service/outputs/resource_group_name"
 				},
 				{
 					"name": "use_existing_resource_group",
@@ -133,59 +167,59 @@
 				},
 				{
 					"name": "existing_kms_instance_crn",
-					"value": "ref:../../members/1 - core-security-services-kms/outputs/key_protect_crn"
+					"value": "ref:../../members/1 - Key Management Service/outputs/key_protect_crn"
 				},
 				{
 					"name": "existing_event_notification_instance_crn",
-					"value": "ref:../../members/2 - core-security-services-en/outputs/crn"
+					"value": "ref:../../members/3 - Event Notifications/outputs/crn"
 				},
 				{
 					"name": "service_plan",
 					"value": "ref:../../inputs/sm_service_plan"
 				}
 			],
-			"name": "3 - core-security-services-sm",
-			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.ba032ffb-286c-4a00-ad79-ae9e09cea687-global"
+			"name": "4 - Secrets Manager",
+			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.b1f90948-b990-4b32-8857-ce2df0558ace-global"
 		},
-    {
-      "name": "4 - alm-devsecops-infrastructure",
-      "version_locator": "0f9f49d8-7437-402e-b143-d3712a5ae473.ff2ed7af-df25-49ae-b629-0d51c7decfe7",
-      "inputs": [
-        {
-          "name": "ibmcloud_api_key",
-          "value": ""
-        },
-        {
-          "name": "region",
-          "value": "ref:../../inputs/region"
-        },
 		{
+			"inputs": [
+				{
+					"name": "ibmcloud_api_key",
+					"value": ""
+				},
+				{
+					"name": "region",
+					"value": "ref:../../inputs/region"
+				},
+				{
 					"name": "existing_resource_group",
-					"value": "ref:../../members/1 - core-security-services-kms/outputs/resource_group_name"
-		},
-        {
+					"value": "ref:../../members/1 - Key Management Service/outputs/resource_group_name"
+				},
+				{
 					"name": "sm_instance_id",
-					"value": "ref:../../members/3 - core-security-services-sm/outputs/secrets_manager_guid"
-		},
-        {
+					"value": "ref:../../members/4 - Secrets Manager/outputs/secrets_manager_guid"
+				},
+				{
 					"name": "sm_resource_group_id",
-					"value": "ref:../../members/3 - core-security-services-sm/outputs/resource_group_id"
-		},
-        {
+					"value": "ref:../../members/4 - Secrets Manager/outputs/resource_group_id"
+				},
+				{
 					"name": "sm_location",
-					"value": "ref:../../members/3 - core-security-services-sm/outputs/secrets_manager_region"
-		},
-        {
+					"value": "ref:../../members/4 - Secrets Manager/outputs/secrets_manager_region"
+				},
+				{
 					"name": "sm_group_endpoint_type",
 					"value": "private"
-		}
-      ]
-    },
-    {
+				}
+			],
+			"name": "5 - DevSecOps Application Infrastructure",
+			"version_locator": "0f9f49d8-7437-402e-b143-d3712a5ae473.ff2ed7af-df25-49ae-b629-0d51c7decfe7"
+		},
+		{
 			"inputs": [
 				{
 					"name": "resource_group_name",
-					"value": "ref:../../members/1 - core-security-services-kms/outputs/resource_group_name"
+					"value": "ref:../../members/1 - Key Management Service/outputs/resource_group_name"
 				},
 				{
 					"name": "use_existing_resource_group",
@@ -195,7 +229,7 @@
 					"name": "scc_region",
 					"value": "ref:../../inputs/scc_region"
 				},
-        {
+				{
 					"name": "cos_region",
 					"value": "ref:../../inputs/region"
 				},
@@ -205,11 +239,11 @@
 				},
 				{
 					"name": "existing_kms_instance_crn",
-					"value": "ref:../../members/1 - core-security-services-kms/outputs/key_protect_crn"
+					"value": "ref:../../members/1 - Key Management Service/outputs/key_protect_crn"
 				},
 				{
 					"name": "existing_en_crn",
-					"value": "ref:../../members/2 - core-security-services-en/outputs/crn"
+					"value": "ref:../../members/3 - Event Notifications/outputs/crn"
 				},
 				{
 					"name": "kms_endpoint_type",
@@ -223,81 +257,89 @@
 					"name": "scc_service_plan",
 					"value": "ref:../../inputs/scc_service_plan"
 				},
-        {
+				{
 					"name": "existing_cos_instance_crn",
-					"value": "ref:../4 - alm-devsecops-infrastructure/outputs/cos_instance_id"
+					"value": "ref:../5 - DevSecOps Application Infrastructure/outputs/cos_instance_id"
 				}
 			],
-			"name": "5 - core-security-services-scc",
-			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.09aeab5e-2f02-4a86-a281-844fa19d969d-global"
-		},
-    {
-      "name": "6 - alm-devsecops-toolchain",
-      "version_locator": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc.cce4d1b1-c09a-4c23-8aba-92f6e9f38cda-global",
-      "inputs": [
-        {
-          "name": "ibmcloud_api_key",
-          "value": ""
-        },
-        {
-          "name": "toolchain_region",
-          "value": "ref:../../inputs/region"
-        },
-        {
-          "name": "toolchain_resource_group",
-          "value": "ref:../../members/5 - core-security-services-scc/outputs/resource_group_name"
-        },
-        {
-          "name": "sm_secret_group",
-          "value": "ref:../4 - alm-devsecops-infrastructure/outputs/secrets_manager_secrets_group"
-        },
-        {
-          "name": "sm_resource_group",
-          "value": "ref:../3 - core-security-services-sm/outputs/resource_group_name"
-        },
-        {
-          "name": "sm_name",
-          "value": "ref:../3 - core-security-services-sm/outputs/secrets_manager_name"
-        },
-        {
-          "name": "sm_location",
-          "value": "ref:../3 - core-security-services-sm/outputs/secrets_manager_region"
-        },
-        {
-          "name": "registry_namespace",
-          "value": "ref:../4 - alm-devsecops-infrastructure/outputs/icr_namespace"
-        },
-        {
-          "name": "repositories_prefix",
-          "value": "ref:../../inputs/prefix"
-        },
-        {
-          "name": "event_notifications_crn",
-          "value": "ref:../2 - core-security-services-en/outputs/crn"
-        },
-		{
-		  "name": "autostart",
-		  "value": "true"
+			"name": "6 - Security and Compliance Center",
+			"version_locator": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3.18f3f109-a668-473c-9c7b-155050226c60-global"
 		},
 		{
-		  "name": "code_engine_project_prefix",
-		  "value": "ref:../../inputs/prefix"
+			"inputs": [
+				{
+					"name": "ibmcloud_api_key",
+					"value": ""
+				},
+				{
+					"name": "toolchain_region",
+					"value": "ref:../../inputs/region"
+				},
+				{
+					"name": "toolchain_resource_group",
+					"value": "ref:../../members/6 - Security and Compliance Center/outputs/resource_group_name"
+				},
+				{
+					"name": "sm_secret_group",
+					"value": "ref:../5 - DevSecOps Application Infrastructure/outputs/secrets_manager_secrets_group"
+				},
+				{
+					"name": "sm_resource_group",
+					"value": "ref:../4 - Secrets Manager/outputs/resource_group_name"
+				},
+				{
+					"name": "sm_name",
+					"value": "ref:../4 - Secrets Manager/outputs/secrets_manager_name"
+				},
+				{
+					"name": "sm_location",
+					"value": "ref:../4 - Secrets Manager/outputs/secrets_manager_region"
+				},
+				{
+					"name": "registry_namespace",
+					"value": "ref:../5 - DevSecOps Application Infrastructure/outputs/icr_namespace"
+				},
+				{
+					"name": "repositories_prefix",
+					"value": "ref:../../inputs/prefix"
+				},
+				{
+					"name": "event_notifications_crn",
+					"value": "ref:../3 - Event Notifications/outputs/crn"
+				},
+				{
+					"name": "autostart",
+					"value": "true"
+				},
+				{
+					"name": "code_engine_project_prefix",
+					"value": "ref:../../inputs/prefix"
+				},
+				{
+					"name": "cos_bucket",
+					"value": "ref:../2 - Cloud Object Storage/outputs/bucket_name"
+				},
+				{
+					"name": "cos_endpoint",
+					"value": "ref:../2 - Cloud Object Storage/outputs/s3_endpoint_direct"
+				}
+			],
+			"name": "7 - DevSecOps Application Lifecycle Management",
+			"version_locator": "1082e7d2-5e2f-0a11-a3bc-f88a8e1931fc.cce4d1b1-c09a-4c23-8aba-92f6e9f38cda-global"
 		}
-      ]
-    }
-  ],
-  "outputs": [
-    {
-      "name": "compliance-ci-toolchain",
-      "value": "ref:./members/6 - alm-devsecops-toolchain/outputs/compliance_ci_toolchain_url"
-    },
-    {
-      "name": "compliance-cd-toolchain",
-      "value": "ref:./members/6 - alm-devsecops-toolchain/outputs/compliance_cd_toolchain_url"
-    },
-    {
-      "name": "compliance-cc-toolchain",
-      "value": "ref:./members/6 - alm-devsecops-toolchain/outputs/compliance_cc_toolchain_url"
-    }
-  ]
+	],
+	"outputs": [
+		{
+			"name": "DevSecOps Continuous Integration Toolchain",
+			"value": "ref:./members/6 - alm-devsecops-toolchain/outputs/compliance_ci_toolchain_url"
+		},
+		{
+			"name": "DevSecOps Continuous DeploymentToolchain",
+			"value": "ref:./members/6 - alm-devsecops-toolchain/outputs/compliance_cd_toolchain_url"
+		},
+		{
+			"name": "DevSecOps Continuous Compliance Toolchain",
+			"value": "ref:./members/6 - alm-devsecops-toolchain/outputs/compliance_cc_toolchain_url"
+		}
+	]
 }
