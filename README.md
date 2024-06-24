@@ -35,7 +35,7 @@ Before deploying the deployable architecture, ensure you have:
 * Locate the [tile]() for the Deployable Architecture in the IBM Cloud Catalog.
 * Click the "Add to project" button.
 
-    ![image](./images/min/1-catalog.png)
+    ![image](./images/min/1- catalog.jpg)
 
 * Select **Create new** and enter the following details:
    - Name and Description (e.g., "Retrieval Augmented Generation Pattern")
@@ -57,3 +57,67 @@ After completing `Step 2 - Deploy the Stack in a New Project from Catalog`, you 
 You may explore the other available inputs, such as the region and resource group name (under optional tab), leave them as is, or modify them as needed.
 
 Once ready, click the "Save" button at the top of the screen.
+
+## 4. Deploy the Architecture
+
+Navigate to the project deployment view by clicking the project name in the breadcrumb menu.
+
+![menu](./images/min/4-bread.png)
+
+
+You should be directed to a screen looking like:
+
+![validate](./images/min/5-validate.png)
+
+Note: in some rare occurences, the first member of the stack may not be marked as "Ready to validate". Refreshing the page in your browser window should solve this problem.
+
+Two approaches to deploy the architecture:
+1. **Fully Automated End-to-End**. Recommended for demo or non-critical environments. This approach allows Project to validate, approve, and deploy all stack members automatically.
+2. **Member-by-Member**. Recommended for critical environments, such as production. This approach enables a detailed review of changes from each stack member before automation is executed, ensuring precise control over the deployment process.
+
+### Approach 1: Fully Automated End-to-End
+
+To enable auto-deployment:
+1. Go to **Manage** > **Settings** > **Auto-deploy** and toggle **On**.
+   ![auto-deploy](./images/15-auto-deploy.png)
+2. Return to the **Configurations** tab and click **Validate** under stack configuration.
+    ![validate button](./images/5b-validate.png)
+
+The project will then validate, approve, and deploy each stack member, taking approximately one hour to complete.
+
+### Approach 2: Member-by-Member
+
+1. Click on validate
+
+    ![validate button](./images/16-validate.png)
+
+2. Wait for validation
+
+    ![validation](./images/min/6-validation.png)
+
+3. Approve and click the deploy button
+
+    ![deploy](./images/min/7-deploy.png)
+
+4. Wait for deployment
+
+5. Repeat step 1 for the next configuration in the architecture. Note that as you progress in deploying the initial base configuration, you will be given the option to validate and deploy multiple configuration in parallel.
+
+## 5. Post deployment steps
+
+At this point, the infrastructure has been successfully deployed in the target account, and the initial build of the sample application has started in the newly-provisioned DevOps service.
+
+### Monitoring the Build and Deployment
+
+To monitor the build and deployment of the application, follow these steps:
+1. **Access the DevOps Toolchains View**: Navigate to the [DevOps / Toolchains view](https://cloud.ibm.com/devops/toolchains) in the target account.
+2. **Select the Resource Group and Region**: Choose the resource group and region where the infrastructure was deployed. The resource group name is based on the prefix and resource_group_name inputs of the deployable architecture.
+3. **Select the Toolchain**: Select "DevSecOps CI Toolchain"
+    ![toolchain](./images/min/8-toolchain.png)
+4. **Access the Delivery Pipeline**: In the toolchain view, select ci-pipeline under Delivery pipeline
+    ![toolchain](./images/min/9-pipeline.png)
+5. **View the CI Pipeline Status**: The current status of the CI pipeline execution can be found under the "ci-webhook-trigger" section.
+
+### Verifying the Application Deployment
+
+Once the initial run of the CI pipeline complete, you should be able to view the application running in the created [Code Engine project](https://cloud.ibm.com/codeengine/projects).
